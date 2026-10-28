@@ -1,0 +1,11 @@
+.venv
+**/node_modules
+**/dist
+**/__pycache__
+.git
+.pytest_cache
+data/raw
+data/processed
+data/splits
+artifacts/transformers
+artifacts/multifactor

@@ -1,0 +1,199 @@
+:root {
+  color-scheme: dark;
+  font-family: Inter, "Segoe UI", system-ui, sans-serif;
+  color: #d7e8e3;
+  background: #0c1d1e;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  width: 340px;
+  min-height: 220px;
+  margin: 0;
+}
+
+main {
+  padding: 18px;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.brand-mark {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border-radius: 10px;
+  color: #06201f;
+  background: #57d8be;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: 15px;
+}
+
+header p,
+.company-name,
+.disclaimer {
+  margin-top: 3px;
+  color: #9ab4ae;
+  font-size: 11px;
+}
+
+.page-url {
+  overflow: hidden;
+  margin-top: 18px;
+  color: #a8c5bd;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+button {
+  width: 100%;
+  min-height: 38px;
+  margin-top: 10px;
+  border: 0;
+  border-radius: 6px;
+  color: #082321;
+  background: #57d8be;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.status {
+  margin-top: 10px;
+  color: #b6cbc5;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.status.error {
+  color: #ffad9e;
+}
+
+.result {
+  margin-top: 14px;
+}
+
+.risk-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 11px;
+  border: 1px solid #36534c;
+  border-radius: 7px;
+  color: #c7e4df;
+  background: #142a29;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.risk-banner strong {
+  font-size: 18px;
+}
+
+.risk-banner.high,
+.risk-banner.critical {
+  border-color: #aa5a4e;
+  color: #ffc1b5;
+  background: #341f20;
+}
+
+.risk-banner.medium {
+  border-color: #99743d;
+  color: #f0d59b;
+  background: #302a1d;
+}
+
+.risk-banner.low {
+  border-color: #3c8068;
+  color: #9ce2c7;
+  background: #173029;
+}
+
+h2 {
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+.company-name,
+#prediction,
+.risk-summary {
+  margin-top: 6px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+#prediction {
+  color: #d7e8e3;
+  font-weight: 700;
+}
+
+.risk-summary {
+  color: #a9c0ba;
+}
+
+.evidence-section {
+  margin-top: 12px;
+}
+
+.evidence-section h3 {
+  margin: 0 0 7px;
+  color: #f0d59b;
+  font-size: 11px;
+}
+
+.evidence-section ul {
+  margin: 0;
+  padding-left: 17px;
+}
+
+.evidence-section li {
+  margin-top: 7px;
+  color: #c4d8d2;
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.evidence-section mark {
+  padding: 1px 2px;
+  border-radius: 2px;
+  color: #1d302a;
+  background: #f3d776;
+  font-weight: 700;
+}
+
+a {
+  display: inline-block;
+  margin-top: 11px;
+  color: #70dfc5;
+  font-size: 11px;
+}
+
+.disclaimer {
+  margin-top: 16px;
+  line-height: 1.45;
+}

@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Generated artifacts
+models/*
+results/*
+!models/.gitkeep
+!results/.gitkeep
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Local feedback database
+data/*.sqlite3
+data/*.sqlite3-*
+
+# Archived duplicate workspace and downloaded research checkpoints
+_colab_upload/
+artifacts/transformers/
+
+# Source datasets larger than GitHub's per-file limit
+data/raw/merged_paper_datasets.csv
+data/raw/indeed_job_postings.csv
+data/raw/_uploaded_extract/

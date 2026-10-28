@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RecruitmentGuard</title>
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <main>
+      <header>
+        <div class="brand-mark" aria-hidden="true">RG</div>
+        <div>
+          <h1>RecruitmentGuard</h1>
+          <p>Job and offer safety check</p>
+        </div>
+      </header>
+
+      <p id="page-url" class="page-url">Checking active tab…</p>
+      <button id="scan-button" type="button" disabled>Check this job</button>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+
+      <section id="result" class="result" hidden aria-live="polite">
+        <div id="risk-banner" class="risk-banner">
+          <span id="risk-label"></span>
+          <strong id="risk-score"></strong>
+        </div>
+        <h2 id="job-title"></h2>
+        <p id="company-name" class="company-name"></p>
+        <p id="prediction"></p>
+        <p id="risk-summary" class="risk-summary"></p>
+        <section id="evidence-section" class="evidence-section" hidden>
+          <h3>Detected warning signs</h3>
+          <ul id="evidence-list"></ul>
+        </section>
+        <a id="dashboard-link" href="http://127.0.0.1:5174/" target="_blank" rel="noreferrer">
+          Open RecruitmentGuard dashboard
+        </a>
+      </section>
+
+      <p class="disclaimer">
+        On click, the extension sends up to 20,000 characters of visible page text to your local API. Open the job details or offer email first. Results are decision support, not a guarantee.
+      </p>
+    </main>
+    <script src="popup.js"></script>
+  </body>
+</html>

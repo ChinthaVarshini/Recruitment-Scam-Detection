@@ -1,0 +1,40 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      RECRUITMENTGUARD_ADMIN_KEY: ${RECRUITMENTGUARD_ADMIN_KEY:?Set RECRUITMENTGUARD_ADMIN_KEY in .env}
+      RECRUITMENTGUARD_REVIEWER_IDENTITY: ${RECRUITMENTGUARD_REVIEWER_IDENTITY:-authorized-reviewer}
+      RECRUITMENTGUARD_CORS_ORIGINS: http://localhost:8080,http://127.0.0.1:8080
+      RECRUITMENTGUARD_FEEDBACK_DB: /app/feedback-data/feedback.sqlite3
+    ports:
+      - "8000:8000"
+    volumes:
+      - feedback-data:/app/feedback-data
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"
+      interval: 30s
+      timeout: 5s
+      start_period: 30s
+      retries: 3
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: /api
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+
+volumes:
+  feedback-data:
