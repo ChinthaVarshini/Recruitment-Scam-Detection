@@ -21,6 +21,7 @@ RecruitmentGuard combines a TF-IDF machine-learning model with rule-based indica
 - [Feedback and reviewer workflow](#feedback-and-reviewer-workflow)
 - [Model evaluation](#model-evaluation)
 - [Transformer research pipeline](#transformer-research-pipeline)
+- [Railway deployment](#railway-deployment)
 - [Docker deployment](#docker-deployment)
 - [Privacy and security notes](#privacy-and-security-notes)
 
@@ -295,6 +296,29 @@ docker compose up --build
 ```
 
 Open the dashboard at `http://127.0.0.1:8080/`. The API and interactive docs are at `http://127.0.0.1:8000/` and `http://127.0.0.1:8000/docs`.
+
+## Railway deployment
+
+Railway deploys the API and dashboard as separate services from this repository. The frontend proxies `/api` requests to the API over Railway's private network, so only the dashboard needs a public domain. Railway's [monorepo guide](https://docs.railway.com/deployments/monorepo) describes configuring a separate root directory for each service.
+
+1. In Railway, create a project and add a service from the GitHub repository `ChinthaVarshini/Recruitment-Scam-Detection`. Name this service **api** and leave its root directory at `/`, so Railway uses the root `Dockerfile`.
+2. In the API service variables, set:
+
+   ```text
+   PORT=8000
+   RECRUITMENTGUARD_ADMIN_KEY=<a long, unique secret>
+   RECRUITMENTGUARD_REVIEWER_IDENTITY=authorized-reviewer
+   RECRUITMENTGUARD_FEEDBACK_DB=/app/feedback-data/feedback.sqlite3
+   RAILWAY_RUN_UID=0
+   ```
+
+   Generate the admin key privately and add it in Railway's Variables settings; do not commit it or share it in chat. Railway mounts volumes as root-owned, so `RAILWAY_RUN_UID=0` lets the API write to its feedback volume.
+3. Add a Railway volume to the API service and set its mount path to `/app/feedback-data`. This preserves feedback records across deployments.
+4. Add a second service from the same GitHub repository and name it **frontend**. Set its root directory to `/frontend`, so Railway builds `frontend/Dockerfile`.
+5. In the frontend service variables, set `API_HOST=api.railway.internal` and `API_PORT=8000`. The frontend image uses Railway's `PORT` variable for its Nginx listener.
+6. Deploy both services. In the frontend service's **Settings → Networking**, generate a public domain. The API can remain private; the browser reaches it through the frontend proxy.
+
+The API Docker image provides a `/health` health check. After deployment, open the frontend's Railway domain and confirm the dashboard loads and a scan completes. See Railway's documentation for [services](https://docs.railway.com/services), [private networking](https://docs.railway.com/networking/private-networking), [volumes](https://docs.railway.com/volumes), and [public domains](https://docs.railway.com/networking/public-networking). Review Railway's current pricing and limits before publishing.
 
 ## Privacy and security notes
 
