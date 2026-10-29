@@ -32,6 +32,10 @@ RecruitmentGuard combines a TF-IDF machine-learning model with rule-based indica
 - **Browser-based checks:** scan the active job page with the Chromium extension when you choose to run it.
 - **Reviewable feedback:** separate user-submitted labels from independently verified decisions; feedback never retrains the production model automatically.
 
+### Best held-out accuracy: 98.90%
+
+The TF-IDF Linear SVM achieved **98.90% accuracy** on the held-out test set of 2,647 job postings. This is the best individual model accuracy reported for the project, not a separate accuracy score for the entire application. See [Model evaluation](#model-evaluation) for results from all evaluated models.
+
 ## Project screenshots
 
 <p align="center">
