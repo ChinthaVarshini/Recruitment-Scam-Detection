@@ -12,6 +12,8 @@ RecruitmentGuard is an explainable recruitment-scam detection system. It combine
 
 ![RecruitmentGuard safety recommendations interface](screenshots/safety-recommendations.png)
 
+![RecruitmentGuard browser extension](screenshots/browser-extension.png)
+
 ## Structure
 
 - `data/`: raw, processed, and split datasets
