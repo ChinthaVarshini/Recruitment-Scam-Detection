@@ -127,9 +127,13 @@ Open `http://127.0.0.1:5174/`. During development, Vite proxies `/api` requests 
 
 ## Browser extension
 
-Install **RecruitmentGuard Job Checker** from the Chrome Web Store after publication. To test it before publication, download and extract the release ZIP, open `chrome://extensions`, enable **Developer mode**, choose **Load unpacked**, and select the extracted folder containing `manifest.json`.
+### Download and install from GitHub
 
-Open a job details page or offer page, click the pinned RecruitmentGuard icon, then select **Check this job**. The extension reads up to 20,000 characters of visible text from the active tab after your click and sends the page URL, title, and text to the hosted API's `POST /scan-page-content` endpoint. It does not automatically scan, modify the page, or fetch the source website again. Inbox summaries may not contain enough job details. See [extension installation, privacy, and store listing information](extension/README.md) and the [privacy-policy draft](extension/PRIVACY_POLICY.md).
+Download the [RecruitmentGuard Job Checker v1.1.0 ZIP](extension/downloads/recruitmentguard-chrome-extension-v1.1.0.zip) from this repository and extract it. In Chrome, open `chrome://extensions`, turn on **Developer mode**, click **Load unpacked**, and select the extracted folder containing `manifest.json`. Pin the extension from Chrome's Extensions menu, open a job details page, click the RecruitmentGuard icon, then choose **Check this job**.
+
+This GitHub installation is free and does not require Chrome Web Store developer registration, but it is a manual developer-mode install: users download updates themselves, and Chrome may show a developer-mode notice. A Chrome Web Store listing is not available yet.
+
+The extension reads up to 20,000 characters of visible text from the active tab after your click and sends the page URL, title, and text to the hosted API's `POST /scan-page-content` endpoint. It does not automatically scan, modify the page, or fetch the source website again. Inbox summaries may not contain enough job details. See [extension installation, privacy, and store listing information](extension/README.md) and the [privacy-policy draft](extension/PRIVACY_POLICY.md).
 
 ## Analysis features
 

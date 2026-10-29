@@ -4,6 +4,8 @@ $extensionRoot = $PSScriptRoot
 $repositoryRoot = Split-Path -Parent $extensionRoot
 $outputDirectory = Join-Path $repositoryRoot "release"
 $outputPath = Join-Path $outputDirectory "recruitmentguard-chrome-extension-v1.1.0.zip"
+$publicDownloadDirectory = Join-Path $extensionRoot "downloads"
+$publicDownloadPath = Join-Path $publicDownloadDirectory "recruitmentguard-chrome-extension-v1.1.0.zip"
 
 $manifestPath = Join-Path $extensionRoot "manifest.json"
 $manifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
@@ -83,4 +85,8 @@ finally {
     $archive.Dispose()
 }
 
+New-Item -ItemType Directory -Force -Path $publicDownloadDirectory | Out-Null
+Copy-Item -LiteralPath $outputPath -Destination $publicDownloadPath -Force
+
 Write-Output "Validated Manifest V3 files and created: $outputPath"
+Write-Output "Updated public GitHub download: $publicDownloadPath"

@@ -10,11 +10,13 @@ After publication, install **RecruitmentGuard Job Checker** from its Chrome Web 
 
 ### Test before publication
 
-1. Download and extract `recruitmentguard-chrome-extension-v1.1.0.zip`.
+1. Download the [RecruitmentGuard Job Checker v1.1.0 ZIP from GitHub](downloads/recruitmentguard-chrome-extension-v1.1.0.zip) and extract it.
 2. Open `chrome://extensions`.
 3. Turn on **Developer mode**.
 4. Choose **Load unpacked** and select the extracted folder containing `manifest.json`.
 5. Pin RecruitmentGuard from the Extensions menu.
+
+This manual GitHub installation is free and does not require Chrome Web Store registration. Users must download future updates themselves, and Chrome may show a developer-mode notice. There is no public Chrome Web Store listing yet.
 
 ## Use
 
@@ -81,4 +83,4 @@ node --test extension/test/api.test.js
 .\extension\package.ps1
 ```
 
-The test command checks the production endpoint, request contract, unsupported/empty pages, genuine assessment handling, and friendly handling of network, non-JSON, API, and malformed-response errors. The packaging script validates referenced files and Manifest V3 configuration, then writes a ZIP containing only runtime extension files to `release/recruitmentguard-chrome-extension-v1.1.0.zip`. The ZIP has `manifest.json` at its root.
+The test command checks the production endpoint, request contract, unsupported/empty pages, genuine assessment handling, and friendly handling of network, non-JSON, API, and malformed-response errors. The packaging script validates referenced files and Manifest V3 configuration, then writes the build ZIP to `release/recruitmentguard-chrome-extension-v1.1.0.zip` and copies the public download to `extension/downloads/recruitmentguard-chrome-extension-v1.1.0.zip`. The ZIP contains only runtime extension files, with `manifest.json` at its root.
