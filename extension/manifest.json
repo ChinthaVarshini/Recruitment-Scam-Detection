@@ -1,18 +1,26 @@
 {
   "manifest_version": 3,
   "name": "RecruitmentGuard Job Checker",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Check the active job posting with RecruitmentGuard.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
   "permissions": [
     "activeTab",
     "scripting"
   ],
   "host_permissions": [
-    "http://127.0.0.1:8000/*",
-    "http://localhost:8000/*"
+    "https://recruitment-scam-detection.onrender.com/*"
   ],
   "action": {
     "default_title": "Check this job",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png"
+    },
     "default_popup": "popup.html"
   }
 }

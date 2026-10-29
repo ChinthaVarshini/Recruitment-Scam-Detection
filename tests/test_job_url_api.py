@@ -5,6 +5,40 @@ from src.api.app import app
 from src.url_intelligence.job_page_scanner import JobPageScanError
 
 
+def test_deployed_frontend_origin_is_allowed_for_api_preflight():
+    with TestClient(app) as client:
+        response = client.options(
+            "/scan-page-content",
+            headers={
+                "Origin": "https://recruitment-scam-detection.vercel.app",
+                "Access-Control-Request-Method": "POST",
+                "Access-Control-Request-Headers": "content-type",
+            },
+        )
+
+    assert response.status_code == 200
+    assert (
+        response.headers["access-control-allow-origin"]
+        == "https://recruitment-scam-detection.vercel.app"
+    )
+    assert response.headers["access-control-allow-methods"] == "GET, POST"
+
+
+def test_unrecognized_origin_is_not_allowed_by_api_cors():
+    with TestClient(app) as client:
+        response = client.options(
+            "/scan-page-content",
+            headers={
+                "Origin": "https://unrecognized.example",
+                "Access-Control-Request-Method": "POST",
+                "Access-Control-Request-Headers": "content-type",
+            },
+        )
+
+    assert response.status_code == 400
+    assert "access-control-allow-origin" not in response.headers
+
+
 def test_scan_url_extracts_job_and_runs_existing_assessment(monkeypatch):
     monkeypatch.setattr(
         api_module,

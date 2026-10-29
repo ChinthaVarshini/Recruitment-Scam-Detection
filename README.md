@@ -75,7 +75,7 @@ The TF-IDF Linear SVM achieved **98.90% accuracy** on the held-out test set of 2
 
 ## How it works
 
-The project is organized around a Python API and a React dashboard. The API loads the trained model and supporting artifacts, analyzes job details, and returns a structured assessment. The dashboard presents that result and provides the scanning, reporting, batch-analysis, history, and reviewer interfaces. A Chromium extension can send the visible text of the active tab to the local API after the user clicks **Check this job**.
+The project is organized around a Python API and a React dashboard. The API loads the trained model and supporting artifacts, analyzes job details, and returns a structured assessment. The dashboard presents that result and provides the scanning, reporting, batch-analysis, history, and reviewer interfaces. The Chromium extension sends visible text from the active tab to the hosted API only after the user starts a scan.
 
 | Area | Location |
 | --- | --- |
@@ -127,12 +127,9 @@ Open `http://127.0.0.1:5174/`. During development, Vite proxies `/api` requests 
 
 ## Browser extension
 
-1. Start the RecruitmentGuard API.
-2. Open `chrome://extensions` or `edge://extensions`.
-3. Enable **Developer mode**, choose **Load unpacked**, and select this repository's `extension/` folder.
-4. Open a job details page or offer itself, select the RecruitmentGuard extension, and click **Check this job**.
+Install **RecruitmentGuard Job Checker** from the Chrome Web Store after publication. To test it before publication, download and extract the release ZIP, open `chrome://extensions`, enable **Developer mode**, choose **Load unpacked**, and select the extracted folder containing `manifest.json`.
 
-The extension reads up to 20,000 characters of visible text from the active tab only after you click the button. It submits that text and the page URL to the local API's `POST /scan-page-content` route. It does not make a separate request to the source website or modify the page. The manifest grants temporary active-tab access and scripting permission, with network access limited to the local API on port 8000. Inbox lists and other summary pages may not include enough job information for a useful assessment.
+Open a job details page or offer page, click the pinned RecruitmentGuard icon, then select **Check this job**. The extension reads up to 20,000 characters of visible text from the active tab after your click and sends the page URL, title, and text to the hosted API's `POST /scan-page-content` endpoint. It does not automatically scan, modify the page, or fetch the source website again. Inbox summaries may not contain enough job details. See [extension installation, privacy, and store listing information](extension/README.md) and the [privacy-policy draft](extension/PRIVACY_POLICY.md).
 
 ## Analysis features
 
@@ -341,7 +338,7 @@ The API Docker image provides a `/health` health check. After deployment, open t
 ## Privacy and security notes
 
 - Keep `.env` and reviewer credentials private.
-- The browser extension sends page text only after you click **Check this job**; it sends content to the configured local API, not back to the source website.
+- The browser extension sends page text only after you click **Check this job**; it sends content over HTTPS to the RecruitmentGuard API, not back to the source website. The backend stores limited assessment metadata for supported predictions, but the scan route does not persist the full page text or source URL.
 - Scan history is stored in the current browser's local storage. Feedback stores assessment metadata and does not retain the full job posting by default.
 - URL scanning has network-safety limits, but inaccessible pages may fail to scan.
 - The included Docker Compose setup is a deployment baseline, not a complete public-internet security configuration. Use HTTPS, restrictive network access, and managed secrets before exposing it beyond a trusted environment.

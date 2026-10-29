@@ -10,6 +10,7 @@ venv/
 # Generated artifacts
 models/*
 results/*
+release/
 !models/.gitkeep
 !results/.gitkeep
 

@@ -1,5 +1,3 @@
-const API_URL = "http://127.0.0.1:8000";
-
 const pageUrl = document.getElementById("page-url");
 const scanButton = document.getElementById("scan-button");
 const status = document.getElementById("status");
@@ -30,15 +28,8 @@ async function loadActiveTab() {
     activeUrl = tab?.url || "";
     pageUrl.textContent = activeUrl || "No active page URL is available.";
 
-    let parsedUrl;
-    try {
-      parsedUrl = new URL(activeUrl);
-    } catch {
-      parsedUrl = null;
-    }
-
-    supportedPage = Boolean(activeTabId !== null &&
-      parsedUrl && ["http:", "https:"].includes(parsedUrl.protocol),
+    supportedPage = Boolean(
+      activeTabId !== null && RecruitmentGuardApi.isSupportedPageUrl(activeUrl),
     );
     scanButton.disabled = !supportedPage;
     if (!supportedPage) {
@@ -105,28 +96,14 @@ async function scanActiveJob() {
       }),
     });
     const visiblePage = page?.result;
-    if (!visiblePage?.text.trim()) {
-      throw new Error("No readable page text was found. Open the job details or offer message and try again.");
+    const validationMessage = RecruitmentGuardApi.validatePageContent(visiblePage);
+    if (validationMessage) {
+      throw new Error(validationMessage);
     }
 
-    setStatus("Analyzing visible page text…");
-    const response = await fetch(`${API_URL}/scan-page-content`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        source_url: visiblePage.url,
-        page_title: visiblePage.title,
-        page_text: visiblePage.text,
-      }),
-    });
-    const data = await response.json();
-    if (!response.ok) {
-      const detail = data.detail;
-      const message = typeof detail === "string"
-        ? detail
-        : detail?.message || "The job page could not be scanned.";
-      throw new Error(message);
-    }
+    visiblePage.text = visiblePage.text.slice(0, 20000);
+    setStatus("Analyzing with RecruitmentGuard… This may take a moment.");
+    const data = await RecruitmentGuardApi.scanPageContent(visiblePage);
     displayAssessment({
       ...data,
       extracted_job: {
@@ -134,9 +111,8 @@ async function scanActiveJob() {
       },
     });
   } catch (error) {
-    const message = error instanceof TypeError
-      ? "Could not reach the local API. Check that RecruitmentGuard is running."
-      : error.message || "Could not read this page. Open a normal web page and try again.";
+    const message = error.message ||
+      "Could not read this page. Open a normal public web page and try again.";
     showError(message);
   } finally {
     scanButton.disabled = !supportedPage;
