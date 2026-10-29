@@ -2,6 +2,10 @@
 
 RecruitmentGuard is an explainable recruitment-scam detection system. It combines a TF-IDF machine-learning model with rule-based indicators, URL intelligence, multi-factor risk scoring, and safety recommendations.
 
+## Project Interface
+
+![RecruitmentGuard dashboard interface](screenshots/dashboard.png)
+
 ## Structure
 
 - `data/`: raw, processed, and split datasets
