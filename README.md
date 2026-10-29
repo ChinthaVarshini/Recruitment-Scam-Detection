@@ -8,6 +8,12 @@
 
 RecruitmentGuard combines a TF-IDF machine-learning model with rule-based indicators, URL intelligence, multi-factor risk scoring, and practical safety recommendations. It includes a web dashboard, a Chromium browser extension, batch analysis, and a reviewer workflow for evaluating user feedback.
 
+<p align="center">
+  <a href="https://recruitment-scam-detection.vercel.app/"><strong>Open the live RecruitmentGuard app →</strong></a>
+  <br />
+  <sub>Live dashboard hosted on Vercel · API hosted on Render</sub>
+</p>
+
 > **Important:** RecruitmentGuard is a decision-support tool, not a guarantee or independent verification of an employer. Always verify the employer and job offer through trusted sources.
 
 ## Contents
