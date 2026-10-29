@@ -1,0 +1,34 @@
+services:
+  - type: web
+    name: recruitmentguard-api
+    runtime: docker
+    plan: free
+    region: singapore
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    envVars:
+      - key: RECRUITMENTGUARD_ADMIN_KEY
+        generateValue: true
+      - key: RECRUITMENTGUARD_REVIEWER_IDENTITY
+        value: authorized-reviewer
+      - key: RECRUITMENTGUARD_FEEDBACK_DB
+        value: /tmp/feedback.sqlite3
+      - key: RECRUITMENTGUARD_FRONTEND_HOST
+        fromService:
+          type: static
+          name: recruitmentguard-dashboard
+          property: host
+
+  - type: web
+    name: recruitmentguard-dashboard
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: recruitmentguard-api
+          property: host

@@ -95,22 +95,35 @@ app = FastAPI(
 # CORS
 # ============================================================
 
-app.add_middleware(
-    CORSMiddleware,
-
-    allow_origins=os.getenv("RECRUITMENTGUARD_CORS_ORIGINS", "").split(",")
+cors_origins = (
+    [
+        origin.strip()
+        for origin in os.getenv("RECRUITMENTGUARD_CORS_ORIGINS", "").split(",")
+        if origin.strip()
+    ]
     if os.getenv("RECRUITMENTGUARD_CORS_ORIGINS")
     else [
         "http://localhost:5173",
         "http://127.0.0.1:5173",
         "http://localhost:5174",
         "http://127.0.0.1:5174",
-    ],
+    ]
+)
+frontend_host = os.getenv("RECRUITMENTGUARD_FRONTEND_HOST", "").strip().rstrip("/")
+if frontend_host:
+    frontend_origin = (
+        frontend_host
+        if frontend_host.startswith(("http://", "https://"))
+        else f"https://{frontend_host}"
+    )
+    if frontend_origin not in cors_origins:
+        cors_origins.append(frontend_origin)
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=cors_origins,
     allow_credentials=True,
-
     allow_methods=["*"],
-
     allow_headers=["*"],
 )
 

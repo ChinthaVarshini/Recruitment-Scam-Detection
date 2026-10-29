@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-
-const API_URL = import.meta.env.VITE_API_URL || "/api";
+import { API_URL } from "./api.js";
 
 function FeedbackAnalytics() {
   const [analytics, setAnalytics] = useState(null);

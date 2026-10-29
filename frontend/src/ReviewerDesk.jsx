@@ -1,6 +1,5 @@
 import { useState } from "react";
-
-const API_URL = import.meta.env.VITE_API_URL || "/api";
+import { API_URL } from "./api.js";
 
 async function readResponse(response) {
   const data = await response.json();

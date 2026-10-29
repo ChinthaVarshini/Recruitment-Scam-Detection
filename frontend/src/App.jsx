@@ -5,9 +5,9 @@ import BatchAnalysis from "./BatchAnalysis.jsx";
 import FeedbackAnalytics from "./FeedbackAnalytics.jsx";
 import ReviewerDesk from "./ReviewerDesk.jsx";
 import SafeApplicationChecklist from "./SafeApplicationChecklist.jsx";
+import { API_URL } from "./api.js";
 
 const RiskCharts = lazy(() => import("./RiskCharts.jsx"));
-const API_URL = import.meta.env.VITE_API_URL || "/api";
 
 function App() {
   const [form, setForm] = useState({
