@@ -109,6 +109,10 @@ cors_origins = (
         "http://127.0.0.1:5174",
     ]
 )
+deployed_frontend_origin = "https://recruitment-scam-detection.vercel.app"
+if deployed_frontend_origin not in cors_origins:
+    cors_origins.append(deployed_frontend_origin)
+
 frontend_host = os.getenv("RECRUITMENTGUARD_FRONTEND_HOST", "").strip().rstrip("/")
 if frontend_host:
     frontend_origin = (

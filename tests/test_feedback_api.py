@@ -79,11 +79,47 @@ def test_feedback_analytics_endpoint_returns_aggregate_only(tmp_path, monkeypatc
 
     with TestClient(app) as client:
         response = client.get("/feedback/analytics")
+        unsupported_method = client.post("/feedback/analytics")
 
     assert response.status_code == 200
-    assert response.json()["total_submissions"] == 0
-    assert response.json()["evaluation"]["available"] is False
+    assert response.headers["content-type"].startswith("application/json")
+    assert response.json() == {
+        "total_submissions": 0,
+        "user_submitted_label_counts": {"FRAUDULENT": 0, "LEGITIMATE": 0},
+        "pending_count": 0,
+        "reviewed_verified_count": 0,
+        "verified_label_counts": {"FRAUDULENT": 0, "LEGITIMATE": 0},
+        "rejected_count": 0,
+        "trends": [],
+        "evaluation": {
+            "available": False,
+            "positive_class": "FRAUDULENT",
+            "verified_records": 0,
+            "minimum_records": 10,
+        },
+    }
     assert "feedback" not in response.json()
+    assert unsupported_method.status_code == 405
+
+
+def test_feedback_analytics_allows_deployed_vercel_origin(tmp_path, monkeypatch):
+    monkeypatch.setenv(
+        "RECRUITMENTGUARD_FEEDBACK_DB",
+        str(tmp_path / "feedback.sqlite3"),
+    )
+    frontend_origin = "https://recruitment-scam-detection.vercel.app"
+
+    with TestClient(app) as client:
+        response = client.options(
+            "/feedback/analytics",
+            headers={
+                "Origin": frontend_origin,
+                "Access-Control-Request-Method": "GET",
+            },
+        )
+
+    assert response.status_code == 200
+    assert response.headers["access-control-allow-origin"] == frontend_origin
 
 
 def test_rejected_feedback_does_not_count_as_verified(tmp_path, monkeypatch):

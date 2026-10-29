@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { API_URL } from "./api.js";
+import { readJsonResponse } from "./http.js";
 
 function FeedbackAnalytics() {
   const [analytics, setAnalytics] = useState(null);
@@ -16,8 +17,10 @@ function FeedbackAnalytics() {
       setError("");
       try {
         const response = await fetch(`${API_URL}/feedback/analytics`);
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.detail || "Could not load feedback analytics.");
+        const data = await readJsonResponse(
+          response,
+          "Could not load feedback analytics.",
+        );
         if (active) setAnalytics(data);
       } catch (requestError) {
         if (active) setError(requestError.message);
